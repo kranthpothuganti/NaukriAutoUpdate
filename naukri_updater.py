@@ -22,9 +22,15 @@ class NaukriProfileUpdater:
 
     def _init_driver(self):
         chrome_options = Options()
+        if os.getenv("HEADLESS", "false").lower() == "true":
+            chrome_options.add_argument("--headless=new")
         chrome_options.add_argument("--no-sandbox")
         chrome_options.add_argument("--disable-dev-shm-usage")
+        chrome_options.add_argument("--start-maximized")
+        chrome_options.add_argument("--incognito")
+        chrome_options.add_argument(f"--user-data-dir=/tmp/chrome-user-data-{int(time.time())}")
         return webdriver.Chrome(options=chrome_options)
+
 
     def login(self):
         logging.info("Navigating to Naukri login page")
