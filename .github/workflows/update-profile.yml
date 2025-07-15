@@ -50,3 +50,6 @@ jobs:
           path: |
             before_login.png
             login_failed.png
+            AfterSave.png
+            AfterClickingEdit.png
+            BeforeUpdate.png

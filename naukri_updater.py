@@ -53,7 +53,7 @@ class NaukriProfileUpdater:
         try:
             logging.info("Navigating to profile page")
             self.driver.get("https://www.naukri.com/mnjuser/profile")
-            
+            self.driver.save_screenshot("BeforeUpdate.png")
 
             WebDriverWait(self.driver, 30).until(EC.presence_of_element_located((By.XPATH, "//*[@class='icon edit ']")))
             self.driver.find_element(By.XPATH, "//*[@class='icon edit ']").click()
