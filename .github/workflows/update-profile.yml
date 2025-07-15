@@ -2,7 +2,7 @@ name: Update Naukri Profile
 
 on:
   schedule:
-    - cron: "*/30 * * * *"
+    - cron: "*/30000 * * * *"
   workflow_dispatch:
 
 jobs:
@@ -29,7 +29,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          
+
       - name: Run profile updater
         run: python naukri_updater.py
       - name: Upload failure screenshots
