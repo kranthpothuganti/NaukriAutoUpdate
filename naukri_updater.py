@@ -26,9 +26,6 @@ class NaukriProfileUpdater:
     def _init_driver(self):
         chrome_options = Options()
 
-        if os.getenv("HEADLESS", "false").lower() == "true":
-            chrome_options.add_argument("--headless=new")
-
         chrome_options.add_argument("--no-sandbox")
         chrome_options.add_argument("--disable-dev-shm-usage")
         chrome_options.add_argument("--start-maximized")
@@ -42,12 +39,14 @@ class NaukriProfileUpdater:
         logging.info("Navigating to Naukri login page")
         self.driver.get("https://www.naukri.com/nlogin/login")
         try:
+            self.driver.save_screenshot("before_login.png")
             WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, "usernameField")))
             self.driver.find_element(By.ID, "usernameField").send_keys(self.username)
             self.driver.find_element(By.ID, "passwordField").send_keys(self.password)
             self.driver.find_element(By.XPATH, '//button[contains(text(),"Login")]').click()
         except Exception as e:
             logging.error(f"Login error: {e}")
+            self.driver.save_screenshot("login_failed.png")
             raise
 
     def update_profile(self):
