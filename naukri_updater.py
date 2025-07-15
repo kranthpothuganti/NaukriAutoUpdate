@@ -11,6 +11,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
+import tempfile
+import time
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -22,14 +24,14 @@ class NaukriProfileUpdater:
 
     def _init_driver(self):
         chrome_options = Options()
-        if os.getenv("HEADLESS", "false").lower() == "true":
-            chrome_options.add_argument("--headless=new")
         chrome_options.add_argument("--no-sandbox")
         chrome_options.add_argument("--disable-dev-shm-usage")
         chrome_options.add_argument("--start-maximized")
-        chrome_options.add_argument("--incognito")
-        chrome_options.add_argument(f"--user-data-dir=/tmp/chrome-user-data-{int(time.time())}")
+        unique_profile_dir = tempfile.mkdtemp(prefix="chrome_profile_")
+        chrome_options.add_argument(f"--user-data-dir={unique_profile_dir}")
+
         return webdriver.Chrome(options=chrome_options)
+
 
 
     def login(self):
