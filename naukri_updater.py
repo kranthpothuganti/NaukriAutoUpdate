@@ -28,7 +28,10 @@ class NaukriProfileUpdater:
 
         chrome_options.add_argument("--no-sandbox")
         chrome_options.add_argument("--disable-dev-shm-usage")
-        chrome_options.add_argument("--start-maximized")
+        chrome_options.add_argument("--disable-gpu")
+        chrome_options.add_argument("--disable-extensions")
+        chrome_options.add_argument("--remote-debugging-pipe")
+        chrome_options.add_argument("--incognito")
         service = Service(ChromeDriverManager().install())
         return webdriver.Chrome(service=service, options=chrome_options)
 
@@ -59,11 +62,12 @@ class NaukriProfileUpdater:
             self.driver.find_element(By.XPATH, "//*[@class='icon edit ']").click()
 
             WebDriverWait(self.driver, 15).until(EC.presence_of_element_located((By.ID, "root")))
-            
+            self.driver.save_screenshot("AfterClickingEdit.png")            
             save_button = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, 'saveBasicDetailsBtn')))
             self.driver.execute_script("arguments[0].scrollIntoView(true);", save_button)
             time.sleep(1)  # slight delay to stabilize scroll
             self.driver.find_element(By.ID, 'saveBasicDetailsBtn').click()
+            self.driver.save_screenshot("AfterSave.png")            
             logging.info("Profile updated successfully.")
         except (TimeoutException, NoSuchElementException) as e:
             logging.error(f"Failed to update profile: {e}")
