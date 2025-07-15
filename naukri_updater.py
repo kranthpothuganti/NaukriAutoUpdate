@@ -13,6 +13,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 import tempfile
 import time
+from webdriver_manager.chrome import ChromeDriverManager
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -29,8 +30,7 @@ class NaukriProfileUpdater:
         chrome_options.add_argument("--start-maximized")
         unique_profile_dir = tempfile.mkdtemp(prefix="chrome_profile_")
         chrome_options.add_argument(f"--user-data-dir={unique_profile_dir}")
-
-        return webdriver.Chrome(options=chrome_options)
+        return webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)
 
 
 
