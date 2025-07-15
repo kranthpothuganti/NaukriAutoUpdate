@@ -30,7 +30,7 @@ class NaukriProfileUpdater:
         chrome_options.add_argument("--start-maximized")
         unique_profile_dir = tempfile.mkdtemp(prefix="chrome_profile_")
         chrome_options.add_argument(f"--user-data-dir={unique_profile_dir}")
-        return webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)
+        return webdriver.Chrome(executable_path=ChromeDriverManager().install(), options=chrome_options)
 
 
 
